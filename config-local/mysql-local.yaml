@@ -1,0 +1,11 @@
+env: "dev"
+
+db:
+  driver: "mysql"
+  user: "root"
+  password: "password"
+  host: "localhost:3306"
+  name: "db_name"
+
+http_server:
+  address: "localhost:8082"

@@ -1,0 +1,8 @@
+env: "dev"
+
+db:
+  driver: "sqlite"
+  storage_path: "storage/storage.db"
+
+http_server:
+  address: "localhost:8082"
