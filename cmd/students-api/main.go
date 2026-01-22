@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/divyanshujswl-zs/students-api/internal/config"
-	"github.com/divyanshujswl-zs/students-api/internal/handlers/student"
+	"github.com/divyanshujswl-zs/students-api/internal/http/handlers/student"
 	"github.com/divyanshujswl-zs/students-api/internal/storage"
 )
 
@@ -35,10 +35,11 @@ func main() {
 	// setup router
 	router := http.NewServeMux()
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Welcome to homepage!"))
+		w.Write([]byte("Welcome to Students API!"))
 	})
 
 	router.HandleFunc("POST /api/students", student.New(storage))
+	router.HandleFunc("GET /api/students/{id}", student.GetById(storage))
 
 	// setup server
 	server := http.Server{

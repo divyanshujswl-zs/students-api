@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/divyanshujswl-zs/students-api/internal/config"
+	"github.com/divyanshujswl-zs/students-api/internal/types"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -85,4 +86,29 @@ func (m *MySQL) CreateStudent(name, email string, age int) (int64, error) {
 	}
 
 	return result.LastInsertId()
+}
+
+func (m *MySQL) GetStudentById(id int64) (types.Student, error) {
+	stmt, err := m.Db.Prepare("SELECT id, name, email, age FROM students WHERE id = ? LIMIT 1")
+	if err != nil {
+		return types.Student{}, err
+	}
+	defer stmt.Close()
+
+	var student types.Student
+
+	err = stmt.QueryRow(id).Scan(
+		&student.Id,
+		&student.Name,
+		&student.Email,
+		&student.Age,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return types.Student{}, fmt.Errorf("no student found with id %d", id)
+		}
+		return types.Student{}, fmt.Errorf("query error: %w", err)
+	}
+
+	return student, nil
 }

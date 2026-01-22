@@ -6,10 +6,12 @@ import (
 	"github.com/divyanshujswl-zs/students-api/internal/config"
 	"github.com/divyanshujswl-zs/students-api/internal/storage/mysql"
 	"github.com/divyanshujswl-zs/students-api/internal/storage/sqlite"
+	"github.com/divyanshujswl-zs/students-api/internal/types"
 )
 
 type Storage interface {
 	CreateStudent(name, email string, age int) (int64, error)
+	GetStudentById(id int64) (types.Student, error)
 }
 
 func New(cfg *config.Config) (Storage, error) {
