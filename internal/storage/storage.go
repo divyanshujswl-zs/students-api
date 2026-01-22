@@ -12,6 +12,7 @@ import (
 type Storage interface {
 	CreateStudent(name, email string, age int) (int64, error)
 	GetStudentById(id int64) (types.Student, error)
+	GetStudents() ([]types.Student, error)
 }
 
 func New(cfg *config.Config) (Storage, error) {
