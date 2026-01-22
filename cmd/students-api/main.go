@@ -12,7 +12,7 @@ import (
 
 	"github.com/divyanshujswl-zs/students-api/internal/config"
 	"github.com/divyanshujswl-zs/students-api/internal/handlers/student"
-	"github.com/divyanshujswl-zs/students-api/internal/storage/sqlite"
+	"github.com/divyanshujswl-zs/students-api/internal/storage"
 )
 
 func main() {
@@ -20,12 +20,17 @@ func main() {
 	cfg := config.MustLoad()
 
 	// db setup
-	storage, err := sqlite.New(cfg)
+	storage, err := storage.New(cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	slog.Info("storage initialised", slog.String("env", cfg.Env), slog.String("version", "1.0.0"))
+	slog.Info(
+		"storage initialised",
+		slog.String("env", cfg.Env),
+		slog.String("version", "1.0.0"),
+		slog.String("connected_db", cfg.DB.Driver+":"+cfg.DB.Name),
+	)
 
 	// setup router
 	router := http.NewServeMux()

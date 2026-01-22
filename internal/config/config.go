@@ -12,10 +12,25 @@ type HTTPServer struct {
 	Addr string `yaml:"address" env-required:"true"`
 }
 
+type DBConfig struct {
+	Driver string `yaml:"driver" env-required:"true"` // sqlite | mysql
+
+	// sqlite
+	StoragePath string `yaml:"storage_path"`
+
+	// mysql
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	Host     string `yaml:"host"`
+	Name     string `yaml:"name"`
+}
+
 type Config struct {
-	Env         string `yaml:"env" env:"ENV" env-required:"true" env-default:"production"`
-	StoragePath string `yaml:"storage_path" env-required:"true"`
-	HTTPServer  `yaml:"http_server"`
+	Env string `yaml:"env" env:"ENV" env-default:"production"`
+
+	DB DBConfig `yaml:"db"`
+
+	HTTPServer `yaml:"http_server"`
 }
 
 func MustLoad() *Config {
